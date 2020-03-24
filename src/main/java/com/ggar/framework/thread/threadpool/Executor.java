@@ -2,7 +2,7 @@ package com.ggar.framework.thread.threadpool;
 
 import java.sql.SQLException;
 
-public interface Executor<T extends Task, ReturnType> {
+public interface Executor<T,R> {
 
-	public ReturnType execute(T task) throws SQLException;
+	public R execute(Task<T,R> task, T data) throws Exception;
 }

@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import com.ggar.framework.reflection.ReflectionUtils;
 
+@SuppressWarnings("unchecked")
 public abstract class DefaultContainer implements Container {
 
 	protected final Map<Class<?>, Object> instances;
@@ -26,10 +27,11 @@ public abstract class DefaultContainer implements Container {
 		Class c = entity.getClass();
 		return (T) instances.put(c, entity);
 	}
-
+	
 	@Override
 	public <T> T register(Class<T> clazz, T entity) {
-		return (T) instances.put(clazz, entity);
+		instances.put(clazz, entity);
+		return (T) instances.get(clazz);
 	}
 
 	@Override

@@ -14,8 +14,8 @@ public class ThreadPoolTest {
 
 	@Test
 	public void testThreadPool() {
-		Queue<Task> queue = new BlockingQueue<Task>(Runtime.getRuntime().availableProcessors());
-		Pool<Task> pool = new ThreadPool<Task>(queue);
+		Queue<Task<Integer, String>> queue = new BlockingQueue<Task<Integer,String>>(Runtime.getRuntime().availableProcessors());
+		Pool<Task<Integer, String>> pool = new ThreadPool<Integer,String>(queue);
 		
 		pool.start();
 		
@@ -44,7 +44,7 @@ public class ThreadPoolTest {
 	
 }
 
-class IntegerToStringTask implements Task<String> {
+class IntegerToStringTask implements Task<Integer, String> {
 
 	private final Integer num;
 	
@@ -53,7 +53,7 @@ class IntegerToStringTask implements Task<String> {
 	}
 	
 	@Override
-	public String execute() {
+	public String execute(Integer integer) {
 		
 		try {
 			Thread.sleep(1000);

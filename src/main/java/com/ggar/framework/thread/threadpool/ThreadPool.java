@@ -1,17 +1,16 @@
 package com.ggar.framework.thread.threadpool;
 
-import java.sql.SQLException;
 import java.util.logging.Logger;
 
-public class ThreadPool<T extends Task<?>> implements Pool<T> {
+public class ThreadPool<T, R> implements Pool<Task<T,R>> {
 
 	private final Logger log = Logger.getLogger(ThreadPool.class.getName());
-	private final Queue<T> queue;
+	private final Queue<Task<T,R>> queue;
 	private Thread mainThread;
 	private volatile int workers;
 	private volatile boolean exit = false;
 
-	public ThreadPool(Queue<T> queue) {
+	public ThreadPool(Queue<Task<T,R>> queue) {
 		this.queue = queue;
 		this.workers = 0;
 	}
@@ -25,12 +24,12 @@ public class ThreadPool<T extends Task<?>> implements Pool<T> {
 						try {
 							synchronized (queue) {
 								if (!queue.isEmpty()) {
-									T task = ThreadPool.this.queue.dequeue();
+									Task<T,R> task = ThreadPool.this.queue.dequeue();
 									log.fine(String.format("Found new Task %s", task));
 									Executor executor = new BasicTaskExecutor();
 									try {
-										executor.execute(task);
-									} catch (SQLException e) {
+										executor.execute(task, null);
+									} catch (Exception e) {
 										e.printStackTrace();
 									}
 									Thread.sleep(1);
