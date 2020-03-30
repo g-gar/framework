@@ -1,18 +1,9 @@
 package com.ggar.framework.thread.threadpool;
 
 import java.lang.reflect.Field;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.ggar.framework.test.TestRunner;
-
-@RunWith(TestRunner.class)
 public class ThreadPoolTest {
 
-	@Test
 	public void testThreadPool() {
 		Queue<Task<Integer, String>> queue = new BlockingQueue<Task<Integer,String>>(Runtime.getRuntime().availableProcessors());
 		Pool<Task<Integer, String>> pool = new ThreadPool<Integer,String>(queue);
